@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>linux | 南京小趴菜的博客</title>
+    <meta property="og:title" content="linux - 南京小趴菜的博客">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
+    <meta name="description" content="linux">
+        
+    <meta name="author" content="南京小趴菜">
+    <meta property="og:url" content="https://zhouEmo.github.io/categories/linux/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://zhouEmo.github.io/categories/linux/index.xml" title="南京小趴菜的博客" />
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://zhouEmo.github.io">
+                        南京小趴菜的博客
+                    </a>
+                
+                <p class="description">专注于网络扯皮,Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://zhouEmo.github.io">Home</a>
+                    
+                    <a  href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://zhouEmo.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://zhouEmo.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <h3 class="archive-title">
+        
+            <span>5</span>
+        
+            <span>1</span>
+        
+        <span class="keyword">linux</span>
+        articles
+    </h3>
+    
+
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" target="_blank">使用SSH密钥快捷登录Debian</a>
+            </h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:35:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+    <a href='/categories/ssh' target="_blank">ssh</a>
+  
+</div>
+
+
+        <div class="post-content">
+            用密钥登陆的好处：1.安全 2.不用输入密码… 查看本机的密钥文件 MacBook-Air:blog catbsd$ ls ~/.ssh/ id_rsa id_rsa.pub known_hosts # id_rsa 密钥，十分的重要 # id_rsa.pub 公钥 密钥文件不存在，创建密钥 ssh-keygen -t rsa -b 4096 -C &#34;your_email@domain.com&#34; # rsa 数字签名方式，还有其他：RSA，DSA，ECDSA，EdDSA和Ed25519 都用于数字签名 # 4096 指定了生成的密钥位数，默认2048 # id_rsa……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" target="_blank">Arch Linux Install Fcitx5</a>
+            </h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:32:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        <div class="post-content">
+            安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus 其他详细配置参考：https://wiki……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" target="_blank">Arch Linux Install DWM</a>
+            </h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:30:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        <div class="post-content">
+            接着上篇的Arch Linux环境基础安装后，进行安装dwm 克隆 dwm Development code和st终端 # patch 打代码补丁 sudo pacman -S git make gcc patch git clone https://git.suckless.org/dwm git clone https://git.suckless.org/st git clone https://git.suckless.org/dmenu [xxx@archWork-Server ~]$ tree dwm/ dwm/ ├── config.def.h ├── config.mk ├── drw.c ├── drw.h ├── dwm.1 ├── dwm.c ├── dwm.png ├── LICENSE ├── Makefile ├── README ├── transient.c ├── util.c └── util.h [hang@archWork-Server ~]$ tree st st ├── arg.h ├── config.def.h ├── config.mk ├……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" target="_blank">Arch Linux Bios Install</a>
+            </h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:28:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        <div class="post-content">
+            主要是记录一下，安装Arch Linux 难度非常小… 基础部分 root@archiso ~ # ping baidu.com ... root@archiso ~ # timedatectl status Local time: Wed 2022-02-23 17:36:37 UTC Universal time: Wed 2022-02-23 17:36:37 UTC RTC time: Wed 2022-02-23 17:36:37 Time zone: UTC (UTC, +0000) System clock synchronized: no NTP service: inactive RTC in local TZ: no # ssh [非必需] root@archiso ~ # systemctl status sshd ● sshd.service - OpenSSH Daemon Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor pres&gt; Active: active (running) since Wed 2022-02-23 17:28:00 UTC; 10min ago Main PID: 656 (sshd) Tasks: 1 (limit: 19021) Memory: 3.4M CPU: 198ms CGroup: /system.slice/sshd.service └─656 &#34;sshd: /usr/bin/sshd -D [listener] 0 of 10-100 startups&#34; Feb 23 17:28:00 archiso systemd[1]: Started OpenSSH Daemon. Feb……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">
+                <a href="https://zhouEmo.github.io/post/linux-voice-dadada/" target="_blank">Linux Voice Dadada</a>
+            </h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:18:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        <div class="post-content">
+            解决Linux发行版无音频播放时音响哒哒哒的问题 疑似音频接口进入节能模式 sudo nano /sys/module/snd_hda_intel/parameters/power_save # 将1改为0保存即可……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/linux-voice-dadada/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
+
+    
+
+
+
+
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="https://zhouEmo.github.io">南京小趴菜的博客 By 南京小趴菜</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://zhouEmo.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://zhouEmo.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" title="使用SSH密钥快捷登录Debian" target="_blank">使用SSH密钥快捷登录Debian</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" title="Arch Linux Install Fcitx5" target="_blank">Arch Linux Install Fcitx5</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" title="Arch Linux Install DWM" target="_blank">Arch Linux Install DWM</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" title="Arch Linux Bios Install" target="_blank">Arch Linux Bios Install</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/linux-voice-dadada/" title="Linux Voice Dadada" target="_blank">Linux Voice Dadada</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://zhouEmo.github.io/categories/linux/">linux (5)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/ssh/">ssh (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://zhouEmo.github.io/tags/linux/">linux</a>
+    
+    <a href="https://zhouEmo.github.io/tags/ssh/">ssh</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://zhouEmo.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

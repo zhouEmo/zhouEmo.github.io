@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>南京小趴菜的博客</title>
+    <link>https://zhouEmo.github.io/</link>
+    <description>Recent content on 南京小趴菜的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 14 Dec 2022 15:35:10 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用SSH密钥快捷登录Debian</title>
+      <link>https://zhouEmo.github.io/post/ssh-keys-on-debian/</link>
+      <pubDate>Wed, 14 Dec 2022 15:35:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/ssh-keys-on-debian/</guid>
+      <description>用密钥登陆的好处：1.安全 2.不用输入密码… 查看本机的密钥文件 MacBook-Air:blog catbsd$ ls ~/.ssh/ id_rsa id_rsa.pub known_hosts # id_rsa 密钥，十分的重要 # id_rsa.pub 公钥 密钥文件不存在，创建密钥 ssh-keygen -t rsa -b 4096 -C &amp;#34;your_email@domain.com&amp;#34; # rsa 数字签名方式，还有其他：RSA，DSA，ECDSA，EdDSA和Ed25519 都用于数字签名 # 4096 指定了生成的密钥位数，默认2048 # id_rsa</description>
+    </item>
+    
+    <item>
+      <title>Arch Linux Install Fcitx5</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/</link>
+      <pubDate>Wed, 14 Dec 2022 15:32:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/</guid>
+      <description>安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus 其他详细配置参考：https://wiki</description>
+    </item>
+    
+    <item>
+      <title>Arch Linux Install DWM</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-install-dwm/</link>
+      <pubDate>Wed, 14 Dec 2022 15:30:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-install-dwm/</guid>
+      <description>接着上篇的Arch Linux环境基础安装后，进行安装dwm 克隆 dwm Development code和st终端 # patch 打代码补丁 sudo pacman -S git make gcc patch git clone https://git.suckless.org/dwm git clone https://git.suckless.org/st git clone https://git.suckless.org/dmenu [xxx@archWork-Server ~]$ tree dwm/ dwm/ ├── config.def.h ├── config.mk ├── drw.c ├── drw.h ├── dwm.1 ├── dwm.c ├── dwm.png ├── LICENSE ├── Makefile ├── README ├── transient.c ├── util.c └── util.h [hang@archWork-Server ~]$ tree st st ├── arg.h ├── config.def.h ├── config.mk ├</description>
+    </item>
+    
+    <item>
+      <title>Arch Linux Bios Install</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-bios-install/</link>
+      <pubDate>Wed, 14 Dec 2022 15:28:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-bios-install/</guid>
+      <description>主要是记录一下，安装Arch Linux 难度非常小… 基础部分 root@archiso ~ # ping baidu.com ... root@archiso ~ # timedatectl status Local time: Wed 2022-02-23 17:36:37 UTC Universal time: Wed 2022-02-23 17:36:37 UTC RTC time: Wed 2022-02-23 17:36:37 Time zone: UTC (UTC, +0000) System clock synchronized: no NTP service: inactive RTC in local TZ: no # ssh [非必需] root@archiso ~ # systemctl status sshd ● sshd.service - OpenSSH Daemon Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor pres&amp;gt; Active: active (running) since Wed 2022-02-23 17:28:00 UTC; 10min ago Main PID: 656 (sshd) Tasks: 1 (limit: 19021) Memory: 3.4M CPU: 198ms CGroup: /system.slice/sshd.service └─656 &amp;#34;sshd: /usr/bin/sshd -D [listener] 0 of 10-100 startups&amp;#34; Feb 23 17:28:00 archiso systemd[1]: Started OpenSSH Daemon. Feb</description>
+    </item>
+    
+    <item>
+      <title>Linux Voice Dadada</title>
+      <link>https://zhouEmo.github.io/post/linux-voice-dadada/</link>
+      <pubDate>Wed, 14 Dec 2022 15:18:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/linux-voice-dadada/</guid>
+      <description>解决Linux发行版无音频播放时音响哒哒哒的问题 疑似音频接口进入节能模式 sudo nano /sys/module/snd_hda_intel/parameters/power_save # 将1改为0保存即可</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
+      <link>https://zhouEmo.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhouEmo.github.io/about/</guid>
+      <description>小趴菜一枚，梦想：实现嫩模自由。</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://zhouEmo.github.io/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhouEmo.github.io/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>搜索</title>
+      <link>https://zhouEmo.github.io/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhouEmo.github.io/search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>日常使用的小工具</title>
+      <link>https://zhouEmo.github.io/tools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhouEmo.github.io/tools/</guid>
+      <description>tldraw : 简单画个流程/框架图</description>
+    </item>
+    
+  </channel>
+</rss>

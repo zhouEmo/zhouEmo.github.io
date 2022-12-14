@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Arch Linux Bios Install | 南京小趴菜的博客</title>
+    <meta property="og:title" content="Arch Linux Bios Install - 南京小趴菜的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-12-14T15:28:10&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-12-14T15:28:10&#43;08:00'>
+        
+    <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
+    <meta name="description" content="Arch Linux Bios Install">
+        
+    <meta name="author" content="南京小趴菜">
+    <meta property="og:url" content="https://zhouEmo.github.io/post/arch-linux-bios-install/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://zhouEmo.github.io">
+                        南京小趴菜的博客
+                    </a>
+                
+                <p class="description">专注于网络扯皮,Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://zhouEmo.github.io">Home</a>
+                    
+                    <a  href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://zhouEmo.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://zhouEmo.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+        display: none;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">Table of Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#基础部分">基础部分</a></li>
+    <li><a href="#创建磁盘分区">创建磁盘分区</a></li>
+    <li><a href="#安装系统基础包">安装系统基础包</a></li>
+    <li><a href="#生成fstab">生成fstab</a></li>
+    <li><a href="#chroot-到-mnt-ssd-环境-之前都是在u盘里">chroot 到 /mnt SSD 环境 【之前都是在U盘里】</a></li>
+    <li><a href="#设置时区">设置时区</a></li>
+    <li><a href="#安装nano-htop-intel-ucode等">安装nano htop intel-ucode等</a></li>
+    <li><a href="#安装dhcpcd-自动分配ip">安装dhcpcd 【自动分配IP】</a></li>
+    <li><a href="#本地化设置">本地化设置</a></li>
+    <li><a href="#创建引导-grub">创建引导 grub</a></li>
+    <li><a href="#reboot-前准备">reboot 前准备</a></li>
+    <li><a href="#添加新用户">添加新用户</a></li>
+    <li><a href="#显卡简单安装驱动">显卡简单安装驱动</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Arch Linux Bios Install</h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:28:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>主要是记录一下，安装Arch Linux 难度非常小…</p>
+<h2 id="基础部分">基础部分</h2>
+<pre tabindex="0"><code>root@archiso ~ # ping baidu.com
+...
+
+root@archiso ~ # timedatectl status
+               Local time: Wed 2022-02-23 17:36:37 UTC
+           Universal time: Wed 2022-02-23 17:36:37 UTC
+                 RTC time: Wed 2022-02-23 17:36:37
+                Time zone: UTC (UTC, +0000)
+System clock synchronized: no
+              NTP service: inactive
+          RTC in local TZ: no
+
+
+# ssh [非必需]
+root@archiso ~ # systemctl status sshd
+● sshd.service - OpenSSH Daemon
+     Loaded: loaded (/usr/lib/systemd/system/sshd.service; enabled; vendor pres&gt;
+     Active: active (running) since Wed 2022-02-23 17:28:00 UTC; 10min ago
+   Main PID: 656 (sshd)
+      Tasks: 1 (limit: 19021)
+     Memory: 3.4M
+        CPU: 198ms
+     CGroup: /system.slice/sshd.service
+             └─656 &#34;sshd: /usr/bin/sshd -D [listener] 0 of 10-100 startups&#34;
+
+Feb 23 17:28:00 archiso systemd[1]: Started OpenSSH Daemon.
+Feb 23 17:28:00 archiso sshd[656]: Server listening on 0.0.0.0 port 22.
+Feb 23 17:28:00 archiso sshd[656]: Server listening on :: port 22.
+</code></pre><h2 id="创建磁盘分区">创建磁盘分区</h2>
+<pre tabindex="0"><code># 查看识别到的磁盘 lsblk
+
+root@archiso ~ # lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0    7:0    0 657.4M  1 loop /run/archiso/airootfs
+sda      8:0    0 111.8G  0 disk
+└─sda1   8:1    0 111.8G  0 part
+sdb      8:16   0 238.5G  0 disk
+├─sdb1   8:17   0    18M  0 part
+└─sdb2   8:18   0 238.5G  0 part
+sdc      8:32   1   7.3G  0 disk
+├─sdc1   8:33   1   735M  0 part /run/archiso/bootmnt
+└─sdc2   8:34   1    77M  0 part
+
+# sda 准备做/home ,sdb做为 / 和/boot分区,不用SWAP分区，使用SWAP File代替，可以之后创建
+
+# cfdisk 分区，mkfs格式化,mount挂在分区
+cfdisk /dev/sda
+cfdisk /dev/sdb
+
+# 可以用自己喜欢的文件系统，比如ext4,btrfs,xfs...
+root@archiso ~ # mkfs.btrfs /dev/sda1 -f
+btrfs-progs v5.16
+See http://btrfs.wiki.kernel.org for more information.
+
+Performing full device TRIM /dev/sda1 (111.79GiB) ...
+NOTE: several default settings have changed in version 5.15, please make sure
+      this does not affect your deployments:
+      - DUP for metadata (-m dup)
+      - enabled no-holes (-O no-holes)
+      - enabled free-space-tree (-R free-space-tree)
+
+Label:              (null)
+UUID:               31948ff7-5066-484b-9f82-8fc1f3b0cc1b
+Node size:          16384
+Sector size:        4096
+Filesystem size:    111.79GiB
+Block group profiles:
+  Data:             single            8.00MiB
+  Metadata:         DUP               1.00GiB
+  System:           DUP               8.00MiB
+SSD detected:       yes
+Zoned device:       no
+Incompat features:  extref, skinny-metadata, no-holes
+Runtime features:   free-space-tree
+Checksum:           crc32c
+Number of devices:  1
+Devices:
+   ID        SIZE  PATH
+    1   111.79GiB  /dev/sda1
+
+# 将sdb2 分区也进行格式化
+ mkfs.btrfs /dev/sdb2 -f
+
+# /dev/sdb1 作为BIOS grub，2M大小足够了
+root@archiso ~ # mkfs.fat -F32 /dev/sdb1
+mkfs.fat 4.2 (2021-01-31)
+WARNING: Number of clusters for 32 bit FAT is less then suggested minimum.
+
+# mount 挂在分区
+# 建议单独拿一块硬盘作为home分区，避免用户数据丢失，有能力可以做raid
+root@archiso ~ # mount /dev/sdb2 /mnt
+root@archiso ~ # mkdir /mnt/home
+root@archiso ~ # mount /dev/sda1 /mnt/home
+
+# 检查MOUNTPOINTS
+root@archiso ~ # lsblk
+NAME   MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0    7:0    0 657.4M  1 loop /run/archiso/airootfs
+sda      8:0    0 111.8G  0 disk
+└─sda1   8:1    0 111.8G  0 part /mnt/home
+sdb      8:16   0 238.5G  0 disk
+├─sdb1   8:17   0    18M  0 part 
+└─sdb2   8:18   0 238.5G  0 part /mnt
+sdc      8:32   1   7.3G  0 disk
+├─sdc1   8:33   1   735M  0 part /run/archiso/bootmnt
+└─sdc2   8:34   1    77M  0 part
+</code></pre><h2 id="安装系统基础包">安装系统基础包</h2>
+<pre tabindex="0"><code># 添加国内源,放置最前面
+root@archiso ~ # nano /etc/pacman.d/mirrorlist
+
+Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+
+
+# 刷新
+root@archiso ~ # pacman -Syy
+:: Synchronizing package databases...
+ core                                                                                   133.4 KiB   179 KiB/s 00:01 [######################################################################] 100%
+ extra                                                                                 1538.9 KiB   427 KiB/s 00:04 [######################################################################] 100%
+ community                                                                                6.1 MiB   434 KiB/s 00:14 [######################################################################] 100%
+root@archis
+
+
+# 安装基础包 base linux linux-firmware
+root@archiso ~ # pacstrap /mnt base linux linux-firmware
+==&gt; Creating install root at /mnt
+==&gt; Installing packages to /mnt
+:: Synchronizing package databases...
+ core                                                                                   133.4 KiB   200 KiB/s 00:01 [######################################################################] 100%
+ extra                                                                                 1538.9 KiB  2006 KiB/s 00:01 [######################################################################] 100%
+ community                                                                                6.1 MiB  1765 KiB/s 00:04 [######################################################################] 100%
+resolving dependencies...
+:: There are 3 providers available for initramfs:
+:: Repository core
+   1) mkinitcpio
+:: Repository extra
+   2) booster  3) dracut
+
+Enter a number (default=1):
+looking for conflicting packages...
+
+Packages (117) acl-2.3.1-2  archlinux-keyring-20220125-1  argon2-20190702-4  attr-2.5.1-2  audit-3.0.7-1  bash-5.1.016-1  binutils-2.38-3  brotli-1.0.9-7  bzip2-1.0.8-4
+               ca-certificates-20210603-1  ca-certificates-mozilla-3.75-1  ca-certificates-utils-20210603-1  coreutils-9.0-2  cryptsetup-2.4.3-2  curl-7.81.0-2  dbus-1.12.20-1
+               device-mapper-2.03.15-1  diffutils-3.8-1  e2fsprogs-1.46.5-3  expat-2.4.5-2  file-5.41-1  filesystem-2021.12.07-1  findutils-4.9.0-1  gawk-5.1.1-1  gcc-libs-11.2.0-3
+               gettext-0.21-1  glib2-2.70.4-1  glibc-2.35-2  gmp-6.2.1-1  gnupg-2.2.32-2  gnutls-3.7.3-1  gpgme-1.17.0-2  grep-3.7-1  gzip-1.11-1  hwdata-0.356-1  iana-etc-20220205-1
+               icu-70.1-1  iproute2-5.16.0-1  iptables-1:1.8.7-1  iputils-20211215-1  json-c-0.15-3  kbd-2.4.0-2  keyutils-1.6.3-1  kmod-29-2  krb5-1.19.2-2  less-1:590-1  libarchive-3.6.0-1
+               libassuan-2.5.5-1  libcap-2.63-2  libcap-ng-0.8.2-7  libcroco-0.6.13-2  libelf-0.186-5  libffi-3.4.2-4  libgcrypt-1.9.4-1  libgpg-error-1.44-1  libidn2-2.3.2-1  libksba-1.6.0-1
+               libldap-2.6.1-1  libmnl-1.0.4-3  libnetfilter_conntrack-1.0.8-1  libnfnetlink-1.0.1-4  libnftnl-1.2.1-1  libnghttp2-1.46.0-1  libnl-3.5.0-3  libp11-kit-0.24.1-1
+               libpcap-1.10.1-2  libpsl-0.21.1-1  libsasl-2.1.27-3  libseccomp-2.5.3-3  libsecret-0.20.4-1  libssh2-1.10.0-1  libsysprof-capture-3.42.1-3  libtasn1-4.18.0-1  libtirpc-1.3.2-1
+               libunistring-0.9.10-3  libxcrypt-4.4.28-1  libxml2-2.9.13-1  licenses-20220125-1  linux-api-headers-5.16.8-1  linux-firmware-whence-20220209.6342082-1  lz4-1:1.9.3-2
+               mkinitcpio-31-2  mkinitcpio-busybox-1.35.0-1  mpfr-4.1.0.p13-2  ncurses-6.3-2  nettle-3.7.3-1  npth-1.6-3  openssl-1.1.1.m-1  p11-kit-0.24.1-1  pacman-6.0.1-3
+               pacman-mirrorlist-20220116-1  pam-1.5.2-1  pambase-20211210-1  pciutils-3.7.0-2  pcre-8.45-1  pcre2-10.39-1  pinentry-1.2.0-1  popt-1.18-3  procps-ng-3.3.17-1  psmisc-23.4-1
+               readline-8.1.002-1  sed-4.8-1  shadow-4.11.1-1  sqlite-3.37.2-1  systemd-250.3-4  systemd-libs-250.3-4  systemd-sysvcompat-250.3-4  tar-1.34-1  tzdata-2021e-1
+               util-linux-2.37.4-1  util-linux-libs-2.37.4-1  xz-5.2.5-2  zlib-1:1.2.11-5  zstd-1.5.2-2  base-2-2  linux-5.16.10.arch1-1  linux-firmware-20220209.6342082-1
+
+Total Download Size:   411.11 MiB
+Total Installed Size:  803.18 MiB
+
+:: Proceed with installation? [Y/n]
+:: Retrieving packages...
+ linux-5.16.10.arch1-1-x86_64                                                            10.7 MiB  1018 KiB/s 02:25 [####------------------------------------------------------------------]   6%
+ Total (  0/117)
+</code></pre><h2 id="生成fstab">生成fstab</h2>
+<p>自动将此文件中指定的文件系统挂载到指定的目录</p>
+<pre tabindex="0"><code>genfstab -U /mnt &gt;&gt; /mnt/etc/fstab
+
+# 检查一下
+130 root@archiso ~ # cat /mnt/etc/fstab
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# &lt;file system&gt; &lt;dir&gt; &lt;type&gt; &lt;options&gt; &lt;dump&gt; &lt;pass&gt;
+# /dev/sdb2
+UUID=45791035-6204-4d58-8582-f7d8ad73f365	/         	btrfs     	rw,relatime,ssd,space_cache=v2,subvolid=5,subvol=/	0 0
+
+# /dev/sda1
+UUID=31948ff7-5066-484b-9f82-8fc1f3b0cc1b	/home     	btrfs     	rw,relatime,ssd,space_cache=v2,subvolid=5,subvol=/	0 0
+</code></pre><h2 id="chroot-到-mnt-ssd-环境-之前都是在u盘里">chroot 到 /mnt SSD 环境 【之前都是在U盘里】</h2>
+<pre tabindex="0"><code>root@archiso ~ # arch-chroot /mnt
+[root@archiso /]#            #前面命令行显示改变了
+</code></pre><h2 id="设置时区">设置时区</h2>
+<pre tabindex="0"><code>ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# 时间同步给硬件
+hwclock --systohc
+</code></pre><h2 id="安装nano-htop-intel-ucode等">安装nano htop intel-ucode等</h2>
+<pre tabindex="0"><code>[root@archiso /]# pacman -S nano htop intel-ucode
+</code></pre><h2 id="安装dhcpcd-自动分配ip">安装dhcpcd 【自动分配IP】</h2>
+<pre tabindex="0"><code># iwd 连接WI-FI，但我台式机，不需要
+[root@archiso /]# pacman -S dhcpcd
+</code></pre><h2 id="本地化设置">本地化设置</h2>
+<pre tabindex="0"><code># 修改 /etc/locale.gen，去掉en_US.UTF-8 UTF-8的注释
+
+[root@archiso /]# locale-gen
+Generating locales...
+  en_US.UTF-8... done
+Generation complete.
+
+# 创建/etc/locale.conf文件，并在/etc/locale.conf文件中添加LANG=en_US.UTF-8
+
+# 创建/etc/hostname,在文件中添加自己的主机名
+nano /etc/hostname，比如添加archWork-Server
+
+# 在hosts中添加如下内容
+nano /etc/hosts
+
+127.0.0.1 localhost
+::1     localhost
+127.0.1.1       archWork-Server.localdomain archWork-Server
+
+# 修改root密码
+[root@archiso /]# passwd
+New password:
+Retype new password:
+passwd: password updated successfully
+</code></pre><h2 id="创建引导-grub">创建引导 grub</h2>
+<pre tabindex="0"><code>[root@archiso /]# pacman -S grub
+resolving dependencies...
+looking for conflicting packages...
+
+Packages (1) grub-2:2.06-4
+
+Total Download Size:    6.74 MiB
+Total Installed Size:  34.10 MiB
+
+:: Proceed with installation? [Y/n]
+
+[root@archiso /]# grub-install  /dev/sdb
+Installing for i386-pc platform.
+Installation finished. No error reported.
+
+[root@archiso /]# grub-mkconfig -o /boot/grub/grub.cfg
+Generating grub configuration file ...
+Warning: os-prober will not be executed to detect other bootable partitions.
+Systems on them will not be added to the GRUB boot configuration.
+Check GRUB_DISABLE_OS_PROBER documentation entry.
+done
+</code></pre><h2 id="reboot-前准备">reboot 前准备</h2>
+<pre tabindex="0"><code># 设置dhcp开机启动，如果有iwd也需要
+[root@archiso /]# systemctl enable dhcpcd
+Created symlink /etc/systemd/system/multi-user.target.wants/dhcpcd.service → /usr/lib/systemd/system/dhcpcd.service.
+
+
+# umount 之前挂在的分区
+[root@archiso /]# exit
+exit
+arch-chroot /mnt  3.81s user 1.71s system 0% cpu 24:44.87 total
+1 root@archiso ~ # umount -R /mnt
+</code></pre><h2 id="添加新用户">添加新用户</h2>
+<pre tabindex="0"><code>useradd -mG wheel -s /bin/bash xxx
+
+pacman -S sudo
+nano /etc/sudoer
+# 删除 %wheel 前面的#号
+</code></pre><h2 id="显卡简单安装驱动">显卡简单安装驱动</h2>
+<pre tabindex="0"><code>sudo pacman -S nvidia linux-header
+</code></pre>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://zhouEmo.github.io">南京小趴菜</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/arch-linux-bios-install/">https://zhouEmo.github.io/post/arch-linux-bios-install/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/linux-voice-dadada/">Linux Voice Dadada</a></li>
+        
+        <li><a href="/about/">关于我</a></li>
+        
+        <li><a href="/archives/">归档</a></li>
+        
+        <li><a href="/search/">搜索</a></li>
+        
+        <li><a href="/tools/">日常使用的小工具</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/linux' target="_blank">linux</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="https://zhouEmo.github.io">南京小趴菜的博客 By 南京小趴菜</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://zhouEmo.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://zhouEmo.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" title="使用SSH密钥快捷登录Debian" target="_blank">使用SSH密钥快捷登录Debian</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" title="Arch Linux Install Fcitx5" target="_blank">Arch Linux Install Fcitx5</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" title="Arch Linux Install DWM" target="_blank">Arch Linux Install DWM</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" title="Arch Linux Bios Install" target="_blank">Arch Linux Bios Install</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/linux-voice-dadada/" title="Linux Voice Dadada" target="_blank">Linux Voice Dadada</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://zhouEmo.github.io/categories/linux/">linux (5)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/ssh/">ssh (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://zhouEmo.github.io/tags/linux/">linux</a>
+    
+    <a href="https://zhouEmo.github.io/tags/ssh/">ssh</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://zhouEmo.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

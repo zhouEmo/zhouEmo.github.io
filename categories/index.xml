@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 南京小趴菜的博客</title>
+    <link>https://zhouEmo.github.io/categories/</link>
+    <description>Recent content in Categories on 南京小趴菜的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 14 Dec 2022 15:35:10 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>linux</title>
+      <link>https://zhouEmo.github.io/categories/linux/</link>
+      <pubDate>Wed, 14 Dec 2022 15:35:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
+      <link>https://zhouEmo.github.io/categories/ssh/</link>
+      <pubDate>Wed, 14 Dec 2022 15:35:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/categories/ssh/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

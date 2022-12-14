@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Arch Linux Install DWM | 南京小趴菜的博客</title>
+    <meta property="og:title" content="Arch Linux Install DWM - 南京小趴菜的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2022-12-14T15:30:10&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-12-14T15:30:10&#43;08:00'>
+        
+    <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
+    <meta name="description" content="Arch Linux Install DWM">
+        
+    <meta name="author" content="南京小趴菜">
+    <meta property="og:url" content="https://zhouEmo.github.io/post/arch-linux-install-dwm/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://zhouEmo.github.io">
+                        南京小趴菜的博客
+                    </a>
+                
+                <p class="description">专注于网络扯皮,Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://zhouEmo.github.io">Home</a>
+                    
+                    <a  href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://zhouEmo.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://zhouEmo.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+        display: none;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">Table of Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#克隆-dwm-development-code和st终端">克隆 dwm Development code和st终端</a></li>
+    <li><a href="#编译dwmstdmenu">编译dwm、st、dmenu</a></li>
+    <li><a href="#安装启动dwm必要工具">安装启动dwm必要工具</a></li>
+    <li><a href="#启动dwm">启动dwm</a></li>
+    <li><a href="#调整分辨率-一般是不需要设置的">调整分辨率 [一般是不需要设置的]</a></li>
+    <li><a href="#配置dwm快捷键">配置dwm快捷键</a></li>
+    <li><a href="#使修改后配置生效">使修改后配置生效</a></li>
+    <li><a href="#中文字体">中文字体</a></li>
+    <li><a href="#设置dwm中文字体">设置dwm中文字体</a></li>
+    <li><a href="#添加slstatus-suckless-官方推出">添加slstatus [suckless 官方推出]</a></li>
+    <li><a href="#配置slstatus">配置slstatus</a></li>
+    <li><a href="#音量-alsa-utils">音量 alsa-utils</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Arch Linux Install DWM</h1>
+        </header>
+        
+  <time datetime="2022-12-14T07:30:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>接着上篇的Arch Linux环境基础安装后，进行安装dwm</p>
+<h2 id="克隆-dwm-development-code和st终端">克隆 dwm Development code和st终端</h2>
+<pre tabindex="0"><code># patch 打代码补丁
+sudo pacman -S git make gcc patch
+git clone https://git.suckless.org/dwm
+git clone https://git.suckless.org/st
+git clone https://git.suckless.org/dmenu
+
+[xxx@archWork-Server ~]$ tree  dwm/
+dwm/
+├── config.def.h
+├── config.mk
+├── drw.c
+├── drw.h
+├── dwm.1
+├── dwm.c
+├── dwm.png
+├── LICENSE
+├── Makefile
+├── README
+├── transient.c
+├── util.c
+└── util.h
+
+[hang@archWork-Server ~]$ tree st
+st
+├── arg.h
+├── config.def.h
+├── config.mk
+├── FAQ
+├── LEGACY
+├── LICENSE
+├── Makefile
+├── README
+├── st.1
+├── st.c
+├── st.h
+├── st.info
+├── TODO
+├── win.h
+└── x.c
+
+[hang@archWork-Server ~]$ tree dmenu/
+dmenu/
+├── arg.h
+├── config.def.h
+├── config.mk
+├── dmenu.1
+├── dmenu.c
+├── dmenu_path
+├── dmenu_run
+├── drw.c
+├── drw.h
+├── LICENSE
+├── Makefile
+├── README
+├── stest.1
+├── stest.c
+├── util.c
+└── util.h
+</code></pre><h2 id="编译dwmstdmenu">编译dwm、st、dmenu</h2>
+<pre tabindex="0"><code>cd dwm
+sudo make clean install
+# 三个程序的安装命令都是一样
+
+# 在安装st时，会有报错
+[hang@archWork-Server st]$ sudo make clean install
+rm -f st st.o x.o st-0.8.5.tar.gz
+cp config.def.h config.h
+c99 -I/usr/X11R6/include  `pkg-config --cflags fontconfig`  `pkg-config --cflags freetype2` -DVERSION=\&#34;0.8.5\&#34; -D_XOPEN_SOURCE=600  -O1 -c st.c
+/bin/sh: line 1: pkg-config: command not found
+/bin/sh: line 1: pkg-config: command not found
+c99 -I/usr/X11R6/include  `pkg-config --cflags fontconfig`  `pkg-config --cflags freetype2` -DVERSION=\&#34;0.8.5\&#34; -D_XOPEN_SOURCE=600  -O1 -c x.c
+/bin/sh: line 1: pkg-config: command not found
+/bin/sh: line 1: pkg-config: command not found
+In file included from x.c:15:
+/usr/include/X11/Xft/Xft.h:39:10: fatal error: ft2build.h: No such file or directory
+   39 | #include &lt;ft2build.h&gt;
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make: *** [Makefile:22: x.o] Error 1
+
+# 缺少pkg-config程序
+sudo pacman -S pkgconf
+</code></pre><h2 id="安装启动dwm必要工具">安装启动dwm必要工具</h2>
+<pre tabindex="0"><code># udisks2 udiskie选配，为了提示文件管理器u盘插入的,pcmanfm文件管理器
+sudo pacman -S xorg xorg-xinit feh udisks2 udiskie pcmanfm
+</code></pre><h2 id="启动dwm">启动dwm</h2>
+<pre tabindex="0"><code># cp 配置文件
+[hang@archWork-Server st]$ cp /etc/X11/xinit/xinitrc ~/.xinitrc
+
+# 注释掉下面所有行
+
+#twm &amp;
+#xclock -geometry 50x50-1+1 &amp;
+#xterm -geometry 80x50+494+51 &amp;
+#xterm -geometry 80x20+494-0 &amp;
+#exec xterm -geometry 80x66+0+0 -name login
+
+# 在最后面（if下边）增加下面行
+exec dwm
+
+@ 保存退出后,进入dwm
+startx 
+</code></pre><h2 id="调整分辨率-一般是不需要设置的">调整分辨率 [一般是不需要设置的]</h2>
+<pre tabindex="0"><code># alt + shift + enter 启动st终端
+
+
+# 查看显示器支持的模式
+[hang@archWork-Server ~]$ xrandr -q
+
+# 设置具体模式,rate 设置刷新率
+xrandr --output HDMI-1 --mode 1920x1080 --rate 60.00
+</code></pre><h2 id="配置dwm快捷键">配置dwm快捷键</h2>
+<pre tabindex="0"><code># 配置文件在源代码目录里的config.h，默认dwm使用的配置
+
+# 修改config.h里/* key definitions */ 下面的 #define MODKEY Mod1Mask，其中Mod1Mask改为Mod4Mask
+    --&gt; 将ALT修饰健改为Win键（super）
+
+# { MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+    --&gt; win + p 启动dmenu,搜索应用或者命令，比如：firefox
+
+# { MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+    --&gt; win + shift + enter 启动st
+
+# { MODKEY,                       XK_b,      togglebar,      {0} },
+    --&gt; win + b,关闭topbar
+
+# 其他
+win + j/k 切换程序焦点
+win + h/l 改变焦点程序窗口大小
+win + shift + c 关闭焦点程序窗口 --&gt; 改为win + q
+win + tfm 切换布局，t:tile 叠加；f:? 浮动窗口，区别于叠加;m:monocle 焦点程序满屏，显示的是层数
+win + 1/2/3 切换工作窗口
+win + shift + q 退出dwm
+win + shuift + 1/2/3 将焦点程序移动到对应的工作窗口
+</code></pre><h2 id="使修改后配置生效">使修改后配置生效</h2>
+<pre tabindex="0"><code>cd dwm/
+sudo make clean install
+
+# 退出dwm
+alt + shift + q
+
+# 进入dmw
+startx
+</code></pre><h2 id="中文字体">中文字体</h2>
+<pre tabindex="0"><code>sudo pacman -S wqy-zenhei wqy-microhei ttf-nerd-fonts-symbols
+</code></pre><h2 id="设置dwm中文字体">设置dwm中文字体</h2>
+<pre tabindex="0"><code>fc-list | grep &#34;Wen&#34;
+
+static const char *fonts[]          = { &#34;Source Code Pro:size=10:type:Regular&#34;,&#34;WenQuanYi Micro Hei:size:10:type:Regular:antialias=true:autohint=true&#34;,&#34;Symbols Nerd Font:pixelsize=14:type=2048-em:antialias=true:autohint=true&#34; };
+</code></pre><h2 id="添加slstatus-suckless-官方推出">添加slstatus [suckless 官方推出]</h2>
+<pre tabindex="0"><code>git clone https://git.suckless.org/slstatus
+sudo make clean install
+
+# 开机启动
+sudo nano ~/.xinitrc
+
+# 在dwm前添加
+exec slstatus
+</code></pre><h2 id="配置slstatus">配置slstatus</h2>
+<pre tabindex="0"><code>cd slstatus
+
+sudo nano config.h
+</code></pre><h2 id="音量-alsa-utils">音量 alsa-utils</h2>
+<pre tabindex="0"><code>sudo pacman -S alsa-utils
+</code></pre>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://zhouEmo.github.io">南京小趴菜</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/">https://zhouEmo.github.io/post/arch-linux-install-dwm/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/arch-linux-bios-install/">Arch Linux Bios Install</a></li>
+        
+        <li><a href="/post/linux-voice-dadada/">Linux Voice Dadada</a></li>
+        
+        <li><a href="/about/">关于我</a></li>
+        
+        <li><a href="/archives/">归档</a></li>
+        
+        <li><a href="/search/">搜索</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/linux' target="_blank">linux</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2022 <a href="https://zhouEmo.github.io">南京小趴菜的博客 By 南京小趴菜</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://zhouEmo.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://zhouEmo.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" title="使用SSH密钥快捷登录Debian" target="_blank">使用SSH密钥快捷登录Debian</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" title="Arch Linux Install Fcitx5" target="_blank">Arch Linux Install Fcitx5</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" title="Arch Linux Install DWM" target="_blank">Arch Linux Install DWM</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" title="Arch Linux Bios Install" target="_blank">Arch Linux Bios Install</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/linux-voice-dadada/" title="Linux Voice Dadada" target="_blank">Linux Voice Dadada</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://zhouEmo.github.io/categories/linux/">linux (5)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/ssh/">ssh (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://zhouEmo.github.io/tags/linux/">linux</a>
+    
+    <a href="https://zhouEmo.github.io/tags/ssh/">ssh</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://zhouEmo.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
