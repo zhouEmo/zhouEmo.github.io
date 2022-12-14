@@ -6,7 +6,16 @@
     <description>Recent content on 南京小趴菜的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 14 Dec 2022 15:35:10 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 14 Dec 2022 16:17:23 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arch Linux Install Kde</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-install-kde/</link>
+      <pubDate>Wed, 14 Dec 2022 16:17:23 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-install-kde/</guid>
+      <description>plasma – 基本 plasma 包 kde-applications – 附加的 KDE 本地应用程序 (Konsole 等) xorg – 显示服务器 sddm – 显示管理器 sudo pacman -S --needed xorg sddm sudo pacman -S --needed plasma kde-applications sudo systemctl enable sddm sudo systemctl enable NetworkManager sudo nano /usr/lib/sddm/sddm.conf.d/default.conf # 修改主题 [Theme] # current theme name Current=breeze sudo systemctl reboot</description>
+    </item>
+    
     <item>
       <title>使用SSH密钥快捷登录Debian</title>
       <link>https://zhouEmo.github.io/post/ssh-keys-on-debian/</link>

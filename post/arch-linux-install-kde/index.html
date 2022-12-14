@@ -9,16 +9,20 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>日常使用的小工具 | 南京小趴菜的博客</title>
-    <meta property="og:title" content="日常使用的小工具 - 南京小趴菜的博客">
+    <title>Arch Linux Install Kde | 南京小趴菜的博客</title>
+    <meta property="og:title" content="Arch Linux Install Kde - 南京小趴菜的博客">
     <meta property="og:type" content="article">
         
+    <meta property="article:published_time" content='2022-12-14T16:17:23&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2022-12-14T16:17:23&#43;08:00'>
         
     <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
-    <meta name="description" content="日常使用的小工具">
+    <meta name="description" content="Arch Linux Install Kde">
         
     <meta name="author" content="南京小趴菜">
-    <meta property="og:url" content="https://zhouEmo.github.io/tools/">
+    <meta property="og:url" content="https://zhouEmo.github.io/post/arch-linux-install-kde/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -51,9 +55,9 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://zhouEmo.github.io">Home</a>
+                    <a class="current" href="https://zhouEmo.github.io">Home</a>
                     
-                    <a class="current" href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
+                    <a  href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
                     
                     <a  href="https://zhouEmo.github.io/archives/" title="归档">归档</a>
                     
@@ -172,9 +176,20 @@
 </script>
     <article class="post">
         <header>
-            <h1 class="post-title">日常使用的小工具</h1>
+            <h1 class="post-title">Arch Linux Install Kde</h1>
         </header>
         
+  <time datetime="2022-12-14T08:17:23Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+</div>
 
 
         
@@ -186,13 +201,37 @@
         
         
         <div class="post-content">
-            <ul>
-<li><a href="https://www.tldraw.com/">tldraw</a> : 简单画个流程/框架图</li>
-</ul>
+            <p>plasma – 基本 plasma 包
+kde-applications  – 附加的 KDE 本地应用程序 (Konsole 等)
+xorg – 显示服务器
+sddm – 显示管理器</p>
+<pre tabindex="0"><code>sudo pacman -S --needed xorg sddm
+sudo pacman -S --needed plasma kde-applications
 
+sudo systemctl enable sddm
+sudo systemctl enable NetworkManager
+
+sudo nano /usr/lib/sddm/sddm.conf.d/default.conf
+
+# 修改主题
+[Theme]
+# current theme name
+ Current=breeze
+
+sudo systemctl reboot
+</code></pre>
         </div>
 
         
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://zhouEmo.github.io">南京小趴菜</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/arch-linux-install-kde/">https://zhouEmo.github.io/post/arch-linux-install-kde/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
 
 
         
@@ -200,8 +239,6 @@
 <div class="post-archive">
     <h2>See Also</h2>
     <ul class="listing">
-        
-        <li><a href="/post/arch-linux-install-kde/">Arch Linux Install Kde</a></li>
         
         <li><a href="/post/ssh-keys-on-debian/">使用SSH密钥快捷登录Debian</a></li>
         
@@ -211,13 +248,19 @@
         
         <li><a href="/post/arch-linux-bios-install/">Arch Linux Bios Install</a></li>
         
+        <li><a href="/post/linux-voice-dadada/">Linux Voice Dadada</a></li>
+        
     </ul>
 </div>
 
 
         <div class="post-meta meta-tags">
             
-            No tags
+            <ul class="clearfix">
+                
+                <li><a href='/tags/linux' target="_blank">linux</a></li>
+                
+            </ul>
             
         </div>
     </article>
@@ -284,6 +327,80 @@
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
 
 
     <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
