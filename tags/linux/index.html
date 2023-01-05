@@ -239,7 +239,7 @@
 
 
         <div class="post-content">
-            解决Linux发行版无音频播放时音响哒哒哒的问题 疑似音频接口进入节能模式 sudo nano /sys/module/snd_hda_intel/parameters/power_save # 将1改为0保存即可……
+            解决Linux发行版无音频播放时音响哒哒哒的问题 疑似音频接口进入节能模式 检查系统中的声卡 [xxx@ArchPC post]$ cat /proc/asound/modules 0 snd_hda_intel 1 snd_hda_intel # 如果是USB外插的声卡，则会显示为 snd_usb_audio 临时方法 sudo nano /sys/module/snd_hda_intel/parameters/power_save # 将1改为0保存即可 # 或者 echo 0 &gt; /sys/module/snd_hda_intel/parameters/power_save 永久 # 对内核参数进行修改 cd /etc/modprobe.d sudo nvim audio_disable_powersave.conf # 填写下面的内容，注意区分是什么声卡 options snd_hda_intel power_save=0 # USB声卡 options……
             <p class="readmore"><a href="https://zhouEmo.github.io/post/linux-voice-dadada/" target="_blank">Continue reading</a></p>
         </div>
     </article>
@@ -255,7 +255,7 @@
 
                     <footer id="footer">
     <div>
-        &copy; 2022 <a href="https://zhouEmo.github.io">永不忧伤的博客 By zhouEmo</a>
+        &copy; 2023 <a href="https://zhouEmo.github.io">永不忧伤的博客 By zhouEmo</a>
         
     </div>
     <br />
