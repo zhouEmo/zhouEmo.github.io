@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fcitx on 永不忧伤的博客</title>
+    <link>https://zhouEmo.github.io/categories/fcitx/</link>
+    <description>Recent content in fcitx on 永不忧伤的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 14 Dec 2022 15:32:10 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/categories/fcitx/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arch Linux Install Fcitx5</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/</link>
+      <pubDate>Wed, 14 Dec 2022 15:32:10 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/</guid>
+      <description>安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus # 安装搜狗输入法 yay -S fcitx fcitx-im fcitx-configtool fcitx-sogoupinyin nvim .xprofile export GTK_IM_MODULE=fcitx export QT_IM_MODULE=fcitx export</description>
+    </item>
+    
+  </channel>
+</rss>

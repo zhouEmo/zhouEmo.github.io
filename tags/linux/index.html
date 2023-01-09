@@ -80,6 +80,8 @@
         
         <span>1</span>
         
+        <span>1</span>
+        
         <span class="keyword">linux</span>
         articles
     </h3>
@@ -157,11 +159,13 @@
   
     <a href='/categories/linux' target="_blank">linux</a>
   
+    <a href='/categories/fcitx' target="_blank">fcitx</a>
+  
 </div>
 
 
         <div class="post-content">
-            安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus 其他详细配置参考：https://wiki……
+            安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus # 安装搜狗输入法 yay -S fcitx fcitx-im fcitx-configtool fcitx-sogoupinyin nvim .xprofile export GTK_IM_MODULE=fcitx export QT_IM_MODULE=fcitx export……
             <p class="readmore"><a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" target="_blank">Continue reading</a></p>
         </div>
     </article>
@@ -365,6 +369,8 @@
         <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
 <ul class="widget-list">
     
+    <li><a href="https://zhouEmo.github.io/categories/fcitx/">fcitx (1)</a></li>
+    
     <li><a href="https://zhouEmo.github.io/categories/linux/">linux (6)</a></li>
     
     <li><a href="https://zhouEmo.github.io/categories/ssh/">ssh (1)</a></li>
@@ -375,6 +381,8 @@
     <section class="widget">
         <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
 <div class="tagcloud">
+    
+    <a href="https://zhouEmo.github.io/tags/fcitx/">fcitx</a>
     
     <a href="https://zhouEmo.github.io/tags/linux/">linux</a>
     

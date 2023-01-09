@@ -9,20 +9,21 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>搜索 | 永不忧伤的博客</title>
-    <meta property="og:title" content="搜索 - 永不忧伤的博客">
+    <title>fcitx | 永不忧伤的博客</title>
+    <meta property="og:title" content="fcitx - 永不忧伤的博客">
     <meta property="og:type" content="article">
         
         
     <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
-    <meta name="description" content="搜索页面">
+    <meta name="description" content="fcitx">
         
     <meta name="author" content="zhouEmo">
-    <meta property="og:url" content="https://zhouEmo.github.io/search/">
+    <meta property="og:url" content="https://zhouEmo.github.io/categories/fcitx/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
+    <link rel="alternate" type="application/rss+xml" href="https://zhouEmo.github.io/categories/fcitx/index.xml" title="永不忧伤的博客" />
     <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
@@ -70,70 +71,59 @@
             <div class="col-group">
 
                 <div class="col-8" id="main">
-                    <div class="res-cons">
+                    
+<div class="res-cons">
+    
     <h3 class="archive-title">
-        Search: 
-        <span class="keyword">Keyword</span>
-        results
+        
+            <span>6</span>
+        
+            <span>1</span>
+        
+            <span>1</span>
+        
+        <span class="keyword">fcitx</span>
+        articles
     </h3>
+    
 
+    
     <article class="post">
         <header>
             <h1 class="post-title">
-                <a href="链接" target="_blank">标题</a>
+                <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" target="_blank">Arch Linux Install Fcitx5</a>
             </h1>
         </header>
         
-        <div class="post-content">
-            概要……
-            <p class="readmore"><a href="链接" target="_blank">Continue reading</a></p>
-        </div>
-    </article>
+  <time datetime="2022-12-14T07:32:10Z" class="post-meta meta-date dt-published">
+    2022-12-14
+  </time>
 
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linux' target="_blank">linux</a>
+  
+    <a href='/categories/fcitx' target="_blank">fcitx</a>
+  
 </div>
 
-<script type="text/javascript">
 
-    var getUrlParameter = function getUrlParameter (sParam) {
-        var sPageURL = window.location.search.substring(1),
-            sURLVariables = sPageURL.split('&'),
-            sParameterName,
-            i;
+        <div class="post-content">
+            安装完成之后注销/重启，添加pinyin输入法即可 # 中文 # fcitx5-chinese-addons 包含了大量中文输入方式：拼音、双拼、五笔拼音、自然码、仓颉、冰蟾全息、二笔等 sudo pacman -S fcitx5-im fcitx5-chinese-addons sudo pacman -S fcitx5-pinyin-{zhwiki,moegirl} # 欲在程序中正常启用 Fcitx5, 需设置以下环境变量，并重新登录： sudo nano ~/.pam_environment GTK_IM_MODULE DEFAULT=fcitx QT_IM_MODULE DEFAULT=fcitx XMODIFIERS DEFAULT=\@im=fcitx INPUT_METHOD DEFAULT=fcitx SDL_IM_MODULE DEFAULT=fcitx GLFW_IM_MODULE DEFAULT=ibus # 安装搜狗输入法 yay -S fcitx fcitx-im fcitx-configtool fcitx-sogoupinyin nvim .xprofile export GTK_IM_MODULE=fcitx export QT_IM_MODULE=fcitx export……
+            <p class="readmore"><a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" target="_blank">Continue reading</a></p>
+        </div>
+    </article>
+    
 
-        for (i = 0; i < sURLVariables.length; i++) {
-            sParameterName = sURLVariables[i].split('=');
+    
 
-            if (sParameterName[0] === sParam) {
-                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
-            }
-        }
-    };
 
-    $(document).ready(function () {
-        var q = getUrlParameter("q");
-        $("span.keyword").text(q);
-        $("article.post").remove();
-        $.ajax({
-            url: 'https:\/\/zhouEmo.github.io\/index.xml',
-            dataType: "xml",
-            success: function (data) {
-                $(data).find("item").each(function () {
-                    var item = $(this);
-                    var title = item.find("title").text();
-                    if (title.toLowerCase().indexOf(q.toLowerCase()) >= 0) {
-                        var url = item.find("link").text();
-                        var searchItem = `<article class="post"><header><h1 class="post-title"><a href="` + url + `" target="_blank">` + title + `</a></h1></header>`;
-                        var pubDate = new Date(item.find("pubDate").text())
-                        searchItem += `<time class="post-meta meta-date">` + pubDate.getFullYear() + `-` + (pubDate.getMonth() + 1) + `-` + pubDate.getDate() + `</time>`;
-                        searchItem += `<div class="post-content">` + item.find("description").text() + `……<p class="readmore"><a href="` + url + `" target="_blank">"Continue reading"</a></p></div></article>`;
 
-                        $("div.res-cons").append(searchItem);
-                    }
-                });
-            }
-        });
-    });
-</script>
+
+
+</div>
 
                     <footer id="footer">
     <div>
@@ -155,17 +145,6 @@
 </footer>
 
 
-    
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
 <a id="rocket" href="#top"></a>
 <script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
