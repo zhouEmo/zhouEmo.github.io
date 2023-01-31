@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
+
+    <title>Wayland Hyprland for Arch Linux | 永不忧伤的博客</title>
+    <meta property="og:title" content="Wayland Hyprland for Arch Linux - 永不忧伤的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2023-01-31T10:22:52&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2023-01-31T10:22:52&#43;08:00'>
+        
+    <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
+    <meta name="description" content="Wayland Hyprland for Arch Linux">
+        
+    <meta name="author" content="zhouEmo">
+    <meta property="og:url" content="https://zhouEmo.github.io/post/wayland-hyprland-for-arch-linux/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+        <link rel="stylesheet" href='/css/douban.css'>
+    
+        <link rel="stylesheet" href='/css/other.css'>
+    
+</head>
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://zhouEmo.github.io">
+                        永不忧伤的博客
+                    </a>
+                
+                <p class="description">专注于网络扯皮,Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://zhouEmo.github.io">Home</a>
+                    
+                    <a  href="https://zhouEmo.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://zhouEmo.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://zhouEmo.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    <style type="text/css">
+    .post-toc {
+        position: fixed;
+        width: 200px;
+        margin-left: -210px;
+        padding: 5px 10px;
+        font-family: Athelas, STHeiti, Microsoft Yahei, serif;
+        font-size: 12px;
+        border: 1px solid rgba(0, 0, 0, .07);
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.98);
+        background-clip: padding-box;
+        -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        box-shadow: 1px 1px 2px rgba(0, 0, 0, .125);
+        word-wrap: break-word;
+        white-space: nowrap;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        z-index: 999;
+        cursor: pointer;
+        max-height: 70%;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .post-toc .post-toc-title {
+        width: 100%;
+        margin: 0 auto;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    .post-toc .post-toc-content {
+        font-size: 15px;
+    }
+
+    .post-toc .post-toc-content>nav>ul {
+        margin: 10px 0;
+    }
+
+    .post-toc .post-toc-content ul {
+        padding-left: 20px;
+        list-style: square;
+        margin: 0.5em;
+        line-height: 1.8em;
+    }
+
+    .post-toc .post-toc-content ul ul {
+        padding-left: 15px;
+        display: none;
+    }
+
+    @media print,
+    screen and (max-width:1057px) {
+        .post-toc {
+            display: none;
+        }
+    }
+</style>
+<div class="post-toc" style="position: absolute; top: 188px;">
+    <h2 class="post-toc-title">Table of Contents</h2>
+    <div class="post-toc-content">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#环境配置">环境配置</a></li>
+    <li><a href="#hyprland启动脚本">Hyprland启动脚本</a></li>
+    <li><a href="#hyprland配置脚本">Hyprland配置脚本</a></li>
+    <li><a href="#wayland下的替代">Wayland下的替代</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var postToc = $(".post-toc");
+        if (postToc.length) {
+            var leftPos = $("#main").offset().left;
+            if (leftPos < 220) {
+                postToc.css({ "width": leftPos - 10, "margin-left": (0 - leftPos) })
+            }
+
+            var t = postToc.offset().top - 20,
+                a = {
+                    start: {
+                        position: "absolute",
+                        top: t
+                    },
+                    process: {
+                        position: "fixed",
+                        top: 20
+                    },
+                };
+            $(window).scroll(function () {
+                var e = $(window).scrollTop();
+                e < t ? postToc.css(a.start) : postToc.css(a.process)
+            })
+        }
+
+        if ($("#TableOfContents").children().length < 1) {
+            $(".post-toc").remove();
+        }
+    })
+</script>
+    <article class="post">
+        <header>
+            <h1 class="post-title">Wayland Hyprland for Arch Linux</h1>
+        </header>
+        
+  <time datetime="2023-01-31T10:22:52Z" class="post-meta meta-date dt-published">
+    2023-01-31
+  </time>
+
+
+<div class="post-meta meta-category">
+  <span>&nbsp;|</span>
+  
+    <a href='/categories/linuxwayland' target="_blank">linux,wayland</a>
+  
+</div>
+
+
+        
+        <div class="post-meta">
+            <span id="busuanzi_container_page_pv">&nbsp;|
+                <span id="busuanzi_value_page_pv"></span> <span>reads</span>
+            </span>
+        </div>
+        
+        
+        <div class="post-content">
+            <p>想体现下基于Wayland的显示服务器协议，去替代原有的X Window System.值得庆幸的是: Nvidia私有驱动终于支持了GBM,使得Wayland可以运行在Nvidia独显之下。参考: <a href="https://wiki.archlinuxcn.org/wiki/Wayland">https://wiki.archlinuxcn.org/wiki/Wayland</a></p>
+<p>只所以选择Hyprland，是因为它的动画比较好看，不会像dwm使用picom，动画不确定性的崩溃，目前Hyprland的内存占用是比较大的，大概100Mb，未来可期。其他类似dwm可选dwl,类似i3可选Sway,喜欢平铺可选wayfire或者Gnome、KDE等等。</p>
+<blockquote>
+<p>目前已知问题: 如果GUI应用使用Xwayland启动，输入法大概率不可用，界面可能会出现模糊拉扯(比如电报，解决打开一个GUI应用，然后关掉)，部分应用(比如vscode)可能不会自动运行在Wayland上</p>
+</blockquote>
+<h2 id="环境配置">环境配置</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo pacman -S wayland
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># https://wiki.hyprland.org/Getting-Started/Installation/</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># hyprland 文档建议使用AUR： If you’re on Arch Linux, I heavily recommend you use the AUR.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#hyprland-git - compiles from latest source</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#hyprland - compiles from latest release source</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#hyprland-bin - compiled latest release, prone to breaking on ARM devices as Hyprland binary is compiled for x86</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 根据上述WiKi说明:我选择hyprland-git，用就用最新的</span>
+</span></span><span style="display:flex;"><span>sudo pacman -S yay kitty
+</span></span><span style="display:flex;"><span>yay -S hyprland-git
+</span></span><span style="display:flex;"><span>yay -S xdg-desktop-portal-hyprland-git  <span style="color:#998;font-style:italic"># 屏幕分享插件</span>
+</span></span><span style="display:flex;"><span>yay -S mako <span style="color:#998;font-style:italic"># 通知</span>
+</span></span><span style="display:flex;"><span>yay -S hyprpaper <span style="color:#998;font-style:italic"># 壁纸软件</span>
+</span></span><span style="display:flex;"><span>yay -S foot <span style="color:#998;font-style:italic"># 终端，类似kitty - 未安装还是使用了Kitty</span>
+</span></span><span style="display:flex;"><span>yay -S fuzzel <span style="color:#998;font-style:italic"># 类似picom</span>
+</span></span><span style="display:flex;"><span>sudo pacman -S wl-clipboard <span style="color:#998;font-style:italic"># Wayland下的剪贴板 将内容存到剪贴板(echo &#34;Test&#34; | wl-copy) 鼠标选中的文本，没有复制(wl-paste -p)  复制的内容(wl-paste)</span>
+</span></span><span style="display:flex;"><span>sudo pacman -S imv <span style="color:#998;font-style:italic"># 图片查看器</span>
+</span></span><span style="display:flex;"><span>sudo pacman -S wdisplays <span style="color:#998;font-style:italic"># 图形化多显示器管理</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="hyprland启动脚本">Hyprland启动脚本</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>nvim ~/.loacl/bin/hyprstart
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic">#!/bin/sh</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">XDG_SESSION_TYPE</span><span style="color:#000;font-weight:bold">=</span>wayland
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># export GBM_BACKEND=nvidia-drm</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># export __GLX_VENDOR_LIBRARY_NAME=nvidia</span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># export LIBVA_DRIVER_NAME=nvidia</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">WLR_NO_HARDWARE_CURSORS</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> <span style="color:#998;font-style:italic"># fix cursor</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">MOZ_ENABLE_WAYLAND</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span> <span style="color:#998;font-style:italic"># firefox</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">GTK_THEME</span><span style="color:#000;font-weight:bold">=</span>Catppuccin-blue:dark
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"># Example IME Support: fcitx5</span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">GTK_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>fcitx5
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">QT_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>fcitx5
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">XMODIFIERS</span><span style="color:#000;font-weight:bold">=</span>@im<span style="color:#000;font-weight:bold">=</span>fcitx5
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">SDL_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>fcitx5
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">export</span> <span style="color:#008080">GLFW_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>ibus
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0086b3">exec</span> Hyprland
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="hyprland配置脚本">Hyprland配置脚本</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#998;font-style:italic"># 官方源码里的原配置文件</span>
+</span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/hyprwm/Hyprland/main/example/hyprland.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cp hyprland.conf ~/.config/hypr/hyprland.conf
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>或者
+</span></span><span style="display:flex;"><span>cp /usr/share/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="wayland下的替代">Wayland下的替代</h2>
+<p>参考：https://arewewaylandyet.com/</p>
+<hr>
+<p>参考：https://www.bilibili.com/video/BV1ae4y1K7ta</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>Author: </strong><a rel="author" href="https://zhouEmo.github.io">zhouEmo</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/wayland-hyprland-for-arch-linux/">https://zhouEmo.github.io/post/wayland-hyprland-for-arch-linux/</a></li>
+        <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/post/arch-linux-install-kde/">Arch Linux Install Kde</a></li>
+        
+        <li><a href="/post/ssh-keys-on-debian/">使用SSH密钥快捷登录Debian</a></li>
+        
+        <li><a href="/post/arch-linux-install-fcitx5-zh_cn/">Arch Linux Install Fcitx5</a></li>
+        
+        <li><a href="/post/arch-linux-install-dwm/">Arch Linux Install DWM</a></li>
+        
+        <li><a href="/post/arch-linux-bios-install/">Arch Linux Bios Install</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/linuxwayland' target="_blank">linux,wayland</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yourdiscussshortname" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    
+    
+    
+    
+
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2023 <a href="https://zhouEmo.github.io">永不忧伤的博客 By zhouEmo</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by</span><span class="badge-value bg-blue">Hugo</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://www.flysnow.org/" target="_black"><span class="badge-subject">Design by</span><span class="badge-value bg-brightgreen">飞雪无情</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme</span><span class="badge-value bg-yellowgreen">Maupassant</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+<style type="text/css">
+div.highlight {
+    position: relative;
+    margin: 1em 0px;
+}
+
+.copy-code {
+    display: none;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(78, 78, 78, 0.8);
+    border-radius: var(--radius);
+    padding: 0 5px;
+    font: inherit;
+    user-select: none;
+    cursor: pointer;
+    border: 0;
+    --radius: 8px;
+}
+
+div.highlight:hover .copy-code,pre:hover .copy-code {
+    display: block;
+}
+
+</style>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+
+
+    <script type="text/javascript" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+
+
+
+
+    <script src='/js/douban.js'></script>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://zhouEmo.github.io/search' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://zhouEmo.github.io">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">Latest articles</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/wayland-hyprland-for-arch-linux/" title="Wayland Hyprland for Arch Linux" target="_blank">Wayland Hyprland for Arch Linux</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-kde/" title="Arch Linux Install Kde" target="_blank">Arch Linux Install Kde</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/ssh-keys-on-debian/" title="使用SSH密钥快捷登录Debian" target="_blank">使用SSH密钥快捷登录Debian</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-fcitx5-zh_cn/" title="Arch Linux Install Fcitx5" target="_blank">Arch Linux Install Fcitx5</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-install-dwm/" title="Arch Linux Install DWM" target="_blank">Arch Linux Install DWM</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/arch-linux-bios-install/" title="Arch Linux Bios Install" target="_blank">Arch Linux Bios Install</a>
+    </li>
+    
+    <li>
+        <a href="https://zhouEmo.github.io/post/linux-voice-dadada/" title="Linux Voice Dadada" target="_blank">Linux Voice Dadada</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title" style="color:red">Ads</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【2019双12】ALL IN CLoud 低至1折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1_rYHo7P2gK0jSZPxXXacQpXa-690-388.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://cloud.tencent.com/" title="助力产业智慧升级，云服务器首年88元起，更有千元代金券礼包免费领！" target="_blank" style="color:red">
+                
+                    <img src="https://upload-dianshi-1255598498.file.myqcloud.com/345-7c71532bd4935fbdd9a67c1a71e577b1767b805c.200%E7%89%88%E6%9C%ACB.jpg">
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="https://www.aliyun.com/" title="【渠道专享低折扣】11月特惠 限时2折" target="_blank" style="color:red">
+                
+                    <img src="https://img.alicdn.com/tfs/TB1hblJl7Y2gK0jSZFgXXc5OFXa-750-400.jpg">
+                
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>Categories</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://zhouEmo.github.io/categories/fcitx/">fcitx (1)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/linux/">linux (6)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/linuxwayland/">linux,wayland (1)</a></li>
+    
+    <li><a href="https://zhouEmo.github.io/categories/ssh/">ssh (1)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>Tags</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://zhouEmo.github.io/tags/fcitx/">fcitx</a>
+    
+    <a href="https://zhouEmo.github.io/tags/linux/">linux</a>
+    
+    <a href="https://zhouEmo.github.io/tags/linuxwayland/">linux,wayland</a>
+    
+    <a href="https://zhouEmo.github.io/tags/ssh/">ssh</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">Links</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://www.flysnow.org/" title="飞雪无情的博客">飞雪无情的博客</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">Meta</h3>
+        <ul class="widget-list">
+            <li><a href="https://zhouEmo.github.io/index.xml">RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
