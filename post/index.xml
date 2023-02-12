@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 永不忧伤的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 31 Jan 2023 10:22:52 +0000</lastBuildDate><atom:link href="https://zhouEmo.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 12 Feb 2023 20:57:50 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Arch Linux Set Time</title>
+      <link>https://zhouEmo.github.io/post/arch-linux-set-time/</link>
+      <pubDate>Sun, 12 Feb 2023 20:57:50 +0800</pubDate>
+      
+      <guid>https://zhouEmo.github.io/post/arch-linux-set-time/</guid>
+      <description>timedatectl - 控制系统时间和日期 1 2 3 4 5 6 7 8 9 timedatectl set-ntp true // 设置NTP服务器开启 timedatectl list-timezones // 列出所有时区 timedatectl set-timezone Asia/Shanghai // 设置时区为Asia/Shanghai timedatectl set-time YYYY-MM-DD 更改日期 timedatectl set-time HH:MM:SS 更改时间</description>
+    </item>
+    
     <item>
       <title>Wayland Hyprland for Arch Linux</title>
       <link>https://zhouEmo.github.io/post/wayland-hyprland-for-arch-linux/</link>
