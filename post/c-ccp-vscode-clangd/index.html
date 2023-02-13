@@ -9,8 +9,8 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd | 永不忧伤的博客</title>
-    <meta property="og:title" content="搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd - 永不忧伤的博客">
+    <title>搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake | 永不忧伤的博客</title>
+    <meta property="og:title" content="搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake - 永不忧伤的博客">
     <meta property="og:type" content="article">
         
     <meta property="article:published_time" content='2023-02-13T16:48:38&#43;08:00'>
@@ -19,7 +19,7 @@
     <meta property="article:modified_time" content='2023-02-13T16:48:38&#43;08:00'>
         
     <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
-    <meta name="description" content="搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd">
+    <meta name="description" content="搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake">
         
     <meta name="author" content="zhouEmo">
     <meta property="og:url" content="https://zhouEmo.github.io/post/c-ccp-vscode-clangd/">
@@ -140,7 +140,11 @@
 <div class="post-toc" style="position: absolute; top: 188px;">
     <h2 class="post-toc-title">Table of Contents</h2>
     <div class="post-toc-content">
-        <nav id="TableOfContents"></nav>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
     </div>
 </div>
 <script type="text/javascript">
@@ -176,7 +180,7 @@
 </script>
     <article class="post">
         <header>
-            <h1 class="post-title">搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd</h1>
+            <h1 class="post-title">搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake</h1>
         </header>
         
   <time datetime="2023-02-13T08:48:38Z" class="post-meta meta-date dt-published">
@@ -203,75 +207,318 @@
         
         
         <div class="post-content">
-            <p>在vscode中安装 C/C++ clangd插件,并在配置clangd插件
-然后再去github下载clangd的二进制文件，在插件配置里修改路径
-编译采用cmake或者make都是可以的。</p>
-<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+            <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
 <table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">148
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">149
 </span></code></pre></td>
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.onConfigChanged&#34;: </span><span style="color:#d14">&#34;restart&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.arguments&#34;: </span>[<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--clang-tidy&#34;</span>,<span style="color:#bbb">  </span>// 静态检查<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--compile-commands-dir=${workspaceFolder}/build&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--completion-style=bundled&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--enable-config&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--fallback-style=Google&#34;</span>,<span style="color:#bbb">  </span>// 编码风格<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--function-arg-placeholders=false&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--header-insertion-decorators&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--header-insertion=iwyu&#34;</span>,<span style="color:#bbb">  </span>// 允许补充头文件<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--log=verbose&#34;</span>,<span style="color:#bbb">  </span>// 让 Clangd 生成更详细的日志<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--pch-storage=memory&#34;</span>,<span style="color:#bbb">  </span>// pch优化的位置(memory 或 disk，选择memory会增加内存开销，但会提升性能)<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--pretty&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--ranking-model=heuristics&#34;</span>,<span style="color:#bbb"> </span>// 建议排序模型<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-j=12&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#000080">&#34;clangd.checkUpdates&#34;: </span><span style="color:#000;font-weight:bold">true</span>,<span style="color:#bbb"> </span>//  自动检测 clangd 更新<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>],<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.fallbackFlags&#34;: </span>[<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-std=c++11&#34;</span>,<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-std=c99&#34;</span><span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>],<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;C_Cpp.intelliSenseEngine&#34;: </span><span style="color:#d14">&#34;disabled&#34;</span>,<span style="color:#bbb"> </span>// 一定需要设置，不然C/C++ 插件提示会有冲突<span style="color:#bbb">
-</span></span></span></code></pre></td></tr></table>
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;update.mode&#34;</span>: <span style="color:#d14">&#34;manual&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 启用连字体
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.cursorSmoothCaretAnimation&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;files.autoSave&#34;</span>: <span style="color:#d14">&#34;onFocusChange&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;editor.formatOnPaste&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;editor.formatOnSave&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// CodeLens的字体系列: Fira Code Retina
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.codeLensFontFamily&#34;</span>: <span style="color:#d14">&#34;JetBrains Mono&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;editor.fontFamily&#34;</span>: <span style="color:#d14">&#34;&#39;JetBrains Mono&#39;,&#39;Droid Sans Mono&#39;, &#39;monospace&#39;, monospace&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;editor.fontSize&#34;</span>: <span style="color:#099">16</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 集成终端字体大小
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;terminal.integrated.fontSize&#34;</span>: <span style="color:#099">14</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;workbench.iconTheme&#34;</span>: <span style="color:#d14">&#34;vscode-icons&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;go.docsTool&#34;</span>: <span style="color:#d14">&#34;gogetdoc&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;go.formatTool&#34;</span>: <span style="color:#d14">&#34;goimports&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;go.lintTool&#34;</span>: <span style="color:#d14">&#34;golint&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// CPP
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;C_Cpp.intelliSenseEngine&#34;</span>: <span style="color:#d14">&#34;disabled&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// Clangd
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#998;font-style:italic">// Clangd 运行参数(在终端/命令行输入 clangd --help-list-hidden 可查看更多)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;clangd.onConfigChanged&#34;</span>: <span style="color:#d14">&#34;restart&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;clangd.arguments&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// compelie_commands.json 文件的目录位置(相对于工作区，由于 CMake 生成的该文件默认在 build 文件夹中，故设置为 build)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--compile-commands-dir=build&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#d14">&#34;--clang-tidy&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#d14">&#34;--compile-commands-dir=${workspaceFolder}/build&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 建议风格：打包(重载函数只会给出一个建议）；反可以设置为detailed
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--completion-style=bundled&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#d14">&#34;--enable-config&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 默认格式化风格: 谷歌开源项目代码指南(可用的有 LLVM, Google, Chromium, Mozilla, Webkit, Microsoft, GNU 等)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--fallback-style=Google&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 启用这项时，补全函数时，将会给参数提供占位符，键入后按 Tab 可以切换到下一占位符，乃至函数末
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--function-arg-placeholders=false&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 输入建议中，已包含头文件的项与还未包含头文件的项会以圆点加以区分
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--header-insertion-decorators&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 全局补全（会自动补充头文件）
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--all-scopes-completion&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 更详细的补全内容
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--completion-style=detailed&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#d14">&#34;--function-arg-placeholders&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 允许补充头文件
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--header-insertion=iwyu&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 让 Clangd 生成更详细的日志
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--log=verbose&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// pch优化的位置(memory 或 disk，选择memory会增加内存开销，但会提升性能)
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--pch-storage=memory&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 输出的 JSON 文件更美观
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--pretty&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 建议排序模型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;--ranking-model=heuristics&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#998;font-style:italic">// 同时开启的任务数量
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>        <span style="color:#d14">&#34;-j=4&#34;</span>
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 自动检测 clangd 更新
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;clangd.checkUpdates&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// clangd的snippets有很多的跳转点，不用这个就必须手动触发Intellisense了
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.suggest.snippetsPreventQuickSuggestions&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;clangd.fallbackFlags&#34;</span>: [],
+</span></span><span style="display:flex;"><span>    <span style="color:#a61717;background-color:#e3d2d2">/*********</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a61717;background-color:#e3d2d2">*</span> <span style="color:#a61717;background-color:#e3d2d2">CMake</span> <span style="color:#a61717;background-color:#e3d2d2">*</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a61717;background-color:#e3d2d2">*********/</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 保存 cmake.sourceDirectory 或 CMakeLists.txt 内容时，不自动配置 CMake 项目目录
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;cmake.configureOnEdit&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 在 CMake 项目目录打开时自动对其进行配置
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;cmake.configureOnOpen&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 成功配置后，将 compile_commands.json 复制到此位置
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;cmake.copyCompileCommands&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a61717;background-color:#e3d2d2">/********</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a61717;background-color:#e3d2d2">*</span> <span style="color:#a61717;background-color:#e3d2d2">LLDB</span> <span style="color:#a61717;background-color:#e3d2d2">*</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a61717;background-color:#e3d2d2">********/</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 指令自动补全
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.commandCompletions&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 指针显示解引用内容
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.dereferencePointers&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 鼠标悬停在变量上时预览变量值
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.evaluateForHovers&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 监视表达式的默认类型
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.launch.expressions&#34;</span>: <span style="color:#d14">&#34;simple&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 不显示汇编代码
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.showDisassembly&#34;</span>: <span style="color:#d14">&#34;never&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// LLDB 生成更详细的日志
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;lldb.verboseLogging&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a61717;background-color:#e3d2d2">/*********</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a61717;background-color:#e3d2d2">*</span> <span style="color:#a61717;background-color:#e3d2d2">Color</span> <span style="color:#a61717;background-color:#e3d2d2">*</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#a61717;background-color:#e3d2d2">*********/</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 控制是否对括号着色
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.bracketPairColorization.enabled&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 启用括号指导线
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.guides.bracketPairs&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 语义高亮
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.semanticHighlighting.enabled&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 语义高亮自定义
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;editor.semanticTokenColorCustomizations&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&#34;enabled&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&#34;rules&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 抽象符号
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;*.abstract&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;fontStyle&#34;</span>: <span style="color:#d14">&#34;italic&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 只读量等效为宏
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;readonly&#34;</span>: <span style="color:#d14">&#34;#4FC1FF&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 静态量（静态变量，静态函数）
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;*.static&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;fontStyle&#34;</span>: <span style="color:#d14">&#34;bold&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 宏
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;macro&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#998;font-style:italic">// &#34;foreground&#34;: &#34;#8F5DAF&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>                <span style="color:#000080">&#34;foreground&#34;</span>: <span style="color:#d14">&#34;#4FC1FF&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 成员函数
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;method&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;fontStyle&#34;</span>: <span style="color:#d14">&#34;underline&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 命名空间
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;namespace&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;foreground&#34;</span>: <span style="color:#d14">&#34;#00D780&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 函数参数
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;parameter&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;foreground&#34;</span>: <span style="color:#d14">&#34;#C8ECFF&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 只读的函数参数
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;parameter.readonly&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;foreground&#34;</span>: <span style="color:#d14">&#34;#7BD1FF&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 成员变量，似乎需要clangd12以上
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;property&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;fontStyle&#34;</span>: <span style="color:#d14">&#34;underline&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#000080">&#34;foreground&#34;</span>: <span style="color:#d14">&#34;#C8ECFF&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 类型参数
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;typeParameter&#34;</span>: <span style="color:#d14">&#34;#31A567&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#998;font-style:italic">// 未启用的宏
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>            <span style="color:#000080">&#34;comment&#34;</span>: <span style="color:#d14">&#34;#767BA6&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#998;font-style:italic">// 括号颜色
+</span></span></span><span style="display:flex;"><span><span style="color:#998;font-style:italic"></span>    <span style="color:#000080">&#34;workbench.colorCustomizations&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#000080">&#34;[Default Dark+]&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#000080">&#34;editorBracketHighlight.foreground3&#34;</span>: <span style="color:#d14">&#34;#9CDCFE&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#000080">&#34;editorBracketHighlight.foreground4&#34;</span>: <span style="color:#d14">&#34;#F3FD00&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#000080">&#34;editorBracketHighlight.foreground5&#34;</span>: <span style="color:#d14">&#34;#F47D9F&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#000080">&#34;editorBracketHighlight.foreground6&#34;</span>: <span style="color:#d14">&#34;#A5ADFE&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#000080">&#34;vsicons.dontShowNewVersionMessage&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></td></tr></table>
 </div>
-</div><blockquote>
-<p>目前就是如此配置，后续可能会转战clang + clangd + lldb + cmake,可以参考: <a href="https://www.cnblogs.com/lidabo/p/15637226.html">https://www.cnblogs.com/lidabo/p/15637226.html</a> (发布日期更早些)进行配置。</p>
-</blockquote>
-<blockquote>
-<p>也不知道那个是原版: <a href="https://blog.csdn.net/tyKuGengty/article/details/120119820">https://blog.csdn.net/tyKuGengty/article/details/120119820</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://windowsmacos-vscode-c-llvm-clang-clangd-lldb.readthedocs.io/">https://windowsmacos-vscode-c-llvm-clang-clangd-lldb.readthedocs.io/</a></p>
-</blockquote>
-<blockquote>
-<p>Visual Studio和VS Code使用clang-format自定义C++代码默认格式化样式 <a href="https://blog.csdn.net/xy1157/article/details/93224422">https://blog.csdn.net/xy1157/article/details/93224422</a></p>
-</blockquote>
-<blockquote>
-<p>使用 WSL 在 VScode上用 LLVM + Clangd + LLDB高效编程 C++ <a href="https://blog.csdn.net/qq_25534975/article/details/121931415">https://blog.csdn.net/qq_25534975/article/details/121931415</a></p>
-</blockquote>
+</div><h2 id="参考">参考</h2>
+<pre tabindex="0"><code>https://www.cnblogs.com/lidabo/p/15637226.html
+https://blog.csdn.net/tyKuGengty/article/details/120119820
+https://windowsmacos-vscode-c-llvm-clang-clangd-lldb.readthedocs.io/
 
+Visual Studio和VS Code使用clang-format自定义C++代码默认格式化样式 https://blog.csdn.net/xy1157/article/details/93224422
+使用 WSL 在 VScode上用 LLVM + Clangd + LLDB高效编程 C++ https://blog.csdn.net/qq_25534975/article/details/121931415
+</code></pre>
         </div>
 
         
@@ -481,7 +728,7 @@ div.highlight:hover .copy-code,pre:hover .copy-code {
 <ul class="widget-list">
     
     <li>
-        <a href="https://zhouEmo.github.io/post/c-ccp-vscode-clangd/" title="搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd" target="_blank">搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd</a>
+        <a href="https://zhouEmo.github.io/post/c-ccp-vscode-clangd/" title="搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake" target="_blank">搭建C/Cpp开发环境: Vscode &#43; Clang &#43; Clangd &#43; Cmake</a>
     </li>
     
     <li>
