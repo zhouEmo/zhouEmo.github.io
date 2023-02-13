@@ -6,11 +6,11 @@
     <description>Recent content in Categories on 永不忧伤的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 12 Feb 2023 20:57:50 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Feb 2023 16:48:38 +0800</lastBuildDate><atom:link href="https://zhouEmo.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>linux</title>
       <link>https://zhouEmo.github.io/categories/linux/</link>
-      <pubDate>Sun, 12 Feb 2023 20:57:50 +0800</pubDate>
+      <pubDate>Mon, 13 Feb 2023 16:48:38 +0800</pubDate>
       
       <guid>https://zhouEmo.github.io/categories/linux/</guid>
       <description></description>
@@ -40,6 +40,15 @@
       <pubDate>Wed, 14 Dec 2022 15:32:10 +0800</pubDate>
       
       <guid>https://zhouEmo.github.io/categories/fcitx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C/C&#43;&#43;</title>
+      <link>https://zhouEmo.github.io/categories/C/C&#43;&#43;/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhouEmo.github.io/categories/C/C&#43;&#43;/</guid>
       <description></description>
     </item>
     

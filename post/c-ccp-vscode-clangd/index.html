@@ -9,20 +9,20 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
     
 
-    <title>Arch Linux Install Kde | 永不忧伤的博客</title>
-    <meta property="og:title" content="Arch Linux Install Kde - 永不忧伤的博客">
+    <title>搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd | 永不忧伤的博客</title>
+    <meta property="og:title" content="搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd - 永不忧伤的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content='2022-12-14T16:17:23&#43;08:00'>
+    <meta property="article:published_time" content='2023-02-13T16:48:38&#43;08:00'>
         
         
-    <meta property="article:modified_time" content='2022-12-14T16:17:23&#43;08:00'>
+    <meta property="article:modified_time" content='2023-02-13T16:48:38&#43;08:00'>
         
     <meta name="Keywords" content="Linux,RTOS,C/CPP,Kotlin,Swift,TypeScript,Golang,React,Flutter,Qt">
-    <meta name="description" content="Arch Linux Install Kde">
+    <meta name="description" content="搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd">
         
     <meta name="author" content="zhouEmo">
-    <meta property="og:url" content="https://zhouEmo.github.io/post/arch-linux-install-kde/">
+    <meta property="og:url" content="https://zhouEmo.github.io/post/c-ccp-vscode-clangd/">
     <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
@@ -176,11 +176,11 @@
 </script>
     <article class="post">
         <header>
-            <h1 class="post-title">Arch Linux Install Kde</h1>
+            <h1 class="post-title">搭建C/Cpp开发环境: Vscode &#43; C/CPP &#43; Clangd</h1>
         </header>
         
-  <time datetime="2022-12-14T08:17:23Z" class="post-meta meta-date dt-published">
-    2022-12-14
+  <time datetime="2023-02-13T08:48:38Z" class="post-meta meta-date dt-published">
+    2023-02-13
   </time>
 
 
@@ -188,6 +188,8 @@
   <span>&nbsp;|</span>
   
     <a href='/categories/linux' target="_blank">linux</a>
+  
+    <a href='/categories/C/C&#43;&#43;' target="_blank">C/C&#43;&#43;</a>
   
 </div>
 
@@ -201,32 +203,82 @@
         
         
         <div class="post-content">
-            <p>plasma – 基本 plasma 包
-kde-applications  – 附加的 KDE 本地应用程序 (Konsole 等)
-xorg – 显示服务器
-sddm – 显示管理器</p>
-<pre tabindex="0"><code>sudo pacman -S --needed xorg sddm
-sudo pacman -S --needed plasma kde-applications
+            <p>在vscode中安装 C/C++ clangd插件,并在配置clangd插件
+然后再去github下载clangd的二进制文件，在插件配置里修改路径
+编译采用cmake或者make都是可以的。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
+<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.onConfigChanged&#34;: </span><span style="color:#d14">&#34;restart&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.arguments&#34;: </span>[<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--clang-tidy&#34;</span>,<span style="color:#bbb">  </span>// 静态检查<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--compile-commands-dir=${workspaceFolder}/build&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--completion-style=bundled&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--enable-config&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--fallback-style=Google&#34;</span>,<span style="color:#bbb">  </span>// 编码风格<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--function-arg-placeholders=false&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--header-insertion-decorators&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--header-insertion=iwyu&#34;</span>,<span style="color:#bbb">  </span>// 允许补充头文件<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--log=verbose&#34;</span>,<span style="color:#bbb">  </span>// 让 Clangd 生成更详细的日志<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--pch-storage=memory&#34;</span>,<span style="color:#bbb">  </span>// pch优化的位置(memory 或 disk，选择memory会增加内存开销，但会提升性能)<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--pretty&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;--ranking-model=heuristics&#34;</span>,<span style="color:#bbb"> </span>// 建议排序模型<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-j=12&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#000080">&#34;clangd.checkUpdates&#34;: </span><span style="color:#000;font-weight:bold">true</span>,<span style="color:#bbb"> </span>//  自动检测 clangd 更新<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>],<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;clangd.fallbackFlags&#34;: </span>[<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-std=c++11&#34;</span>,<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#d14">&#34;-std=c99&#34;</span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>],<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#000080">&#34;C_Cpp.intelliSenseEngine&#34;: </span><span style="color:#d14">&#34;disabled&#34;</span>,<span style="color:#bbb"> </span>// 一定需要设置，不然C/C++ 插件提示会有冲突<span style="color:#bbb">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>目前就是如此配置，后续可能会转战clang + clangd + lldb + cmake,可以参考: <a href="https://www.cnblogs.com/lidabo/p/15637226.html">https://www.cnblogs.com/lidabo/p/15637226.html</a> (发布日期更早些)进行配置。</p>
+</blockquote>
+<blockquote>
+<p>也不知道那个是原版: <a href="https://blog.csdn.net/tyKuGengty/article/details/120119820">https://blog.csdn.net/tyKuGengty/article/details/120119820</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://windowsmacos-vscode-c-llvm-clang-clangd-lldb.readthedocs.io/">https://windowsmacos-vscode-c-llvm-clang-clangd-lldb.readthedocs.io/</a></p>
+</blockquote>
+<blockquote>
+<p>Visual Studio和VS Code使用clang-format自定义C++代码默认格式化样式 <a href="https://blog.csdn.net/xy1157/article/details/93224422">https://blog.csdn.net/xy1157/article/details/93224422</a></p>
+</blockquote>
+<blockquote>
+<p>使用 WSL 在 VScode上用 LLVM + Clangd + LLDB高效编程 C++ <a href="https://blog.csdn.net/qq_25534975/article/details/121931415">https://blog.csdn.net/qq_25534975/article/details/121931415</a></p>
+</blockquote>
 
-sudo systemctl enable sddm
-sudo systemctl enable NetworkManager
-
-sudo nano /usr/lib/sddm/sddm.conf.d/default.conf
-
-# 修改主题
-[Theme]
-# current theme name
- Current=breeze
-
-sudo systemctl reboot
-</code></pre>
         </div>
 
         
 <div class="post-archive">
     <ul class="post-copyright">
         <li><strong>Author: </strong><a rel="author" href="https://zhouEmo.github.io">zhouEmo</a></li>
-        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/arch-linux-install-kde/">https://zhouEmo.github.io/post/arch-linux-install-kde/</a></li>
+        <li style="word-break:break-all"><strong>Link: </strong><a href="https://zhouEmo.github.io/post/c-ccp-vscode-clangd/">https://zhouEmo.github.io/post/c-ccp-vscode-clangd/</a></li>
         <li><strong>License: </strong>This work is under a <a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>. Kindly fulfill the requirements of the aforementioned License when adapting or creating a derivative of this work.</li>
     </ul>
 </div>
@@ -240,15 +292,15 @@ sudo systemctl reboot
     <h2>See Also</h2>
     <ul class="listing">
         
+        <li><a href="/post/arch-linux-set-time/">Arch Linux Set Time</a></li>
+        
+        <li><a href="/post/arch-linux-install-kde/">Arch Linux Install Kde</a></li>
+        
         <li><a href="/post/ssh-keys-on-debian/">使用SSH密钥快捷登录Debian</a></li>
         
         <li><a href="/post/arch-linux-install-fcitx5-zh_cn/">Arch Linux Install Fcitx5</a></li>
         
         <li><a href="/post/arch-linux-install-dwm/">Arch Linux Install DWM</a></li>
-        
-        <li><a href="/post/arch-linux-bios-install/">Arch Linux Bios Install</a></li>
-        
-        <li><a href="/post/linux-voice-dadada/">Linux Voice Dadada</a></li>
         
     </ul>
 </div>
@@ -259,6 +311,8 @@ sudo systemctl reboot
             <ul class="clearfix">
                 
                 <li><a href='/tags/linux' target="_blank">linux</a></li>
+                
+                <li><a href='/tags/C/C&#43;&#43;' target="_blank">C/C&#43;&#43;</a></li>
                 
             </ul>
             
